@@ -1,4 +1,5 @@
 import csv
+import numpy as np
 
 
 def readCsv(fileName):
@@ -10,6 +11,7 @@ def readCsv(fileName):
 
 def main():
     data = readCsv("rawData20191014.csv")
+    data = np.array(data)
     print(data)
 
 
