@@ -15,7 +15,7 @@ def readCsv(fileName):
 
 
 def drawData(label, data):
-    fig = plt.figure(figsize=(8.0, 10.0))
+    fig = plt.figure(figsize=(15.0, 10.0))
 
     # 図の中にサブプロットを追加する
     subPlots = []
@@ -75,23 +75,25 @@ def main():
     deviationHeartRate = deviation(heartRate)
     deviationFilteredHeartRate = deviation(filteredHeartRate)
 
-    stddev60HeartRate = stddev(heartRate, 30)
-    stddev60filteredHeartRate = stddev(filteredHeartRate, 30)
+    stddev1minHeartRate = stddev(heartRate, 12)
+    stddev1minfilteredHeartRate = stddev(filteredHeartRate, 12)
 
-    deviationstddev60filteredHeartRate = deviation(stddev60filteredHeartRate)
+    stddev5minHeartRate = stddev(heartRate, 60)
+    stddev5minfilteredHeartRate = stddev(filteredHeartRate, 60)
 
-    justTiming = np.sqrt(combine(deviationHeartRate, deviationstddev60filteredHeartRate))
+    deviationstddev1minfilteredHeartRate = deviation(stddev1minfilteredHeartRate)
 
-    filteredJustTiming = filter(justTiming, 0.99)
+    justTiming = np.sqrt(combine(deviationHeartRate, deviationstddev1minfilteredHeartRate))
+
+    filteredJustTimingv1 = filter(justTiming, 0.9)
 
     yData = [
         heartRate,
         filteredHeartRate,
         deviationFilteredHeartRate,
-        stddev60HeartRate,
-        stddev60filteredHeartRate,
+        stddev1minfilteredHeartRate,
         justTiming,
-        filteredJustTiming
+        filteredJustTimingv1
     ]
 
     drawData(time, yData)
