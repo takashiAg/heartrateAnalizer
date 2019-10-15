@@ -14,9 +14,9 @@ def main():
     data = readCsv("rawData20191014.csv")
 
     # numpyオブジェクトにする
-    data = np.array(data)
+    (time, heartRate) = np.array(data).T
 
-    print(data)
+    print(time, heartRate)
 
 
 if __name__ == '__main__':
