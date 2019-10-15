@@ -48,9 +48,6 @@ def main():
                  + float(HR) * (1.0 - filterCoefficient)
         )
 
-    print(len(time), len(heartRate), len(filteredHeartRate))
-
-    print(time, heartRate, filteredHeartRate)
     drawData(time, [heartRate, filteredHeartRate])
 
 
