@@ -91,8 +91,7 @@ def main():
     justTimingv1 = calcJustTiming(heartRate, 0.99, 1, 60, 0.9, 1)
     justTimingv2 = calcJustTiming(heartRate, 0.99, 1, 12, 0.99, 1)
     justTimingv3 = calcJustTiming(heartRate, 0.99, 1, 12, 0.9, 4)
-
-
+    justTimingv4 = calcJustTiming(heartRate, 0.7, 10, 12, 0.8, 10)
 
     drawData(time, [
         heartRate,
@@ -107,6 +106,11 @@ def main():
     drawData(time, [
         heartRate,
         justTimingv3
+    ])
+
+    drawData(time, [
+        heartRate,
+        justTimingv4
     ])
     plt.show()
 
