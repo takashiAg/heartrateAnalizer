@@ -36,6 +36,12 @@ def drawData(label, data):
     plt.show()
 
 
+def deviation(data):
+    mean = np.mean(data)
+    std = np.std(data)
+    return [((d - mean) / std * 10) + 50 for d in data]
+
+
 def main():
     # CSVからデータを読み込む
     data = readCsv("rawData20191014.csv")
@@ -53,7 +59,10 @@ def main():
                  + float(HR) * (1.0 - filterCoefficient)
         )
 
-    drawData(time, [heartRate, filteredHeartRate])
+    deviationHeartRate = deviation(heartRate)
+    deviationFilteredHeartRate = deviation(filteredHeartRate)
+
+    drawData(time, [heartRate, filteredHeartRate, deviationHeartRate, deviationFilteredHeartRate])
 
 
 if __name__ == '__main__':
