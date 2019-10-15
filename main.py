@@ -15,7 +15,7 @@ def readCsv(fileName):
 
 
 def drawData(label, data):
-    fig = plt.figure(figsize=(10.0, 30.0))
+    fig = plt.figure(figsize=(8.0, 10.0))
 
     # 図の中にサブプロットを追加する
     subPlots = []
