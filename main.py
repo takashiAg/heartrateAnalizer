@@ -4,7 +4,8 @@ import csv
 def readCsv(fileName):
     with open(fileName) as f:
         reader = csv.reader(f)
-        return [row for row in reader]
+        header = next(reader)
+        return [[row[0], int(row[1])] for row in reader]
 
 
 def main():
