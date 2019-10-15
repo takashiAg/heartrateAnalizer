@@ -74,8 +74,10 @@ def main():
     deviationFilteredHeartRate = deviation(filteredHeartRate)
 
     stddev60HeartRate = stddev(heartRate, 60)
+    stddev60filteredHeartRate = stddev(filteredHeartRate, 60)
 
-    drawData(time, [heartRate, filteredHeartRate, deviationFilteredHeartRate, stddev60HeartRate])
+    drawData(time,
+             [heartRate, filteredHeartRate, deviationFilteredHeartRate, stddev60HeartRate, stddev60filteredHeartRate])
 
 
 if __name__ == '__main__':
