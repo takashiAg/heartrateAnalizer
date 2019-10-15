@@ -51,7 +51,7 @@ def main():
     print(len(time), len(heartRate), len(filteredHeartRate))
 
     print(time, heartRate, filteredHeartRate)
-    drawData(time, [heartRate])
+    drawData(time, [heartRate, filteredHeartRate])
 
 
 if __name__ == '__main__':
