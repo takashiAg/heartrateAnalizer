@@ -33,8 +33,6 @@ def drawData(label, data):
         plt.sca(ax)
         plt.xticks(rotation=90)
 
-    plt.show()
-
 
 def deviation(data):
     mean = np.mean(data)
@@ -97,6 +95,12 @@ def main():
     ]
 
     drawData(time, yData)
+
+    drawData(time, [
+        heartRate,
+        filteredJustTiming
+    ])
+    plt.show()
 
 
 if __name__ == '__main__':
