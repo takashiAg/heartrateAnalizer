@@ -28,6 +28,11 @@ def drawData(label, data):
     for i, subPlot in enumerate(subPlots):
         fig1_a_1, = subPlot.plot(label, data[i])
 
+    # ラベルを縦向きに
+    for ax in fig.axes:
+        plt.sca(ax)
+        plt.xticks(rotation=90)
+
     plt.show()
 
 
