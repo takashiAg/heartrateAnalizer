@@ -42,6 +42,17 @@ def deviation(data):
     return [((d - mean) / std * 10) + 50 for d in data]
 
 
+def filter(data, coefficient):
+    filteredData = []
+    for HR in data:
+        filteredData.append(
+            HR if len(filteredData) == 0
+            else float(filteredData[-1]) * coefficient
+                 + float(HR) * (1.0 - coefficient)
+        )
+    return filteredData
+
+
 def main():
     # CSVからデータを読み込む
     data = readCsv("rawData20191014.csv")
@@ -50,14 +61,7 @@ def main():
     (time, heartRate) = np.array(data).T
 
     # digital filter
-    filteredHeartRate = []
-    print(0.0 * filterCoefficient)
-    for HR in heartRate:
-        filteredHeartRate.append(
-            HR if len(filteredHeartRate) == 0
-            else float(filteredHeartRate[-1]) * filterCoefficient
-                 + float(HR) * (1.0 - filterCoefficient)
-        )
+    filteredHeartRate = filter(heartRate, filterCoefficient)
 
     deviationHeartRate = deviation(heartRate)
     deviationFilteredHeartRate = deviation(filteredHeartRate)
