@@ -62,6 +62,25 @@ def combine(array1, array2):
     return [x * y for (x, y) in zip(array1, array2)]
 
 
+def calcJustTiming(data, filter1Coefficient, filter1Order, stdCount, filter2Coefficient, filter2Order):
+    # digital filter
+    for i in range(filter1Order):
+        data = filter(data, filter1Coefficient)
+
+    deviationdHeartRate = deviation(data)
+
+    stddevHeartRate = stddev(data, stdCount)
+
+    deviationstddevHeartRate = deviation(stddevHeartRate)
+
+    data = np.sqrt(combine(deviationdHeartRate, deviationstddevHeartRate))
+
+    for i in range(filter2Order):
+        data = filter(data, filter2Coefficient)
+
+    return data
+
+
 def main():
     # CSVからデータを読み込む
     data = readCsv("rawData20191014.csv")
@@ -69,54 +88,25 @@ def main():
     # 転地してtimeとheartrateに分割
     (time, heartRate) = np.array(data).T
 
-    # digital filter 1次
-    filteredHeartRate = filter(heartRate, filterCoefficient)
+    justTimingv1 = calcJustTiming(heartRate, 0.99, 1, 60, 0.9, 1)
+    justTimingv2 = calcJustTiming(heartRate, 0.99, 1, 12, 0.99, 1)
+    justTimingv3 = calcJustTiming(heartRate, 0.99, 1, 12, 0.9, 4)
 
-    deviationHeartRate = deviation(heartRate)
-    deviationFilteredHeartRate = deviation(filteredHeartRate)
 
-    stddev1minHeartRate = stddev(heartRate, 12)
-    stddev5minHeartRate = stddev(heartRate, 60)
-
-    stddev1minfilteredHeartRate = stddev(filteredHeartRate, 12)
-    stddev5minfilteredHeartRate = stddev(filteredHeartRate, 60)
-
-    deviationstddev1minfilteredHeartRate = deviation(stddev1minfilteredHeartRate)
-    deviationstddev5minfilteredHeartRate = deviation(stddev5minfilteredHeartRate)
-
-    justTiming = np.sqrt(combine(deviationHeartRate, deviationstddev5minfilteredHeartRate))
-    filteredJustTimingv1 = filter(justTiming, 0.9)
-
-    justTiming = np.sqrt(combine(deviationHeartRate, deviationstddev1minfilteredHeartRate))
-    filteredJustTimingv2 = filter(justTiming, 0.99)
-
-    justTiming = np.sqrt(combine(deviationHeartRate, deviationstddev1minfilteredHeartRate))
-    filteredJustTimingv3 = filter(filter(filter(filter(justTiming, 0.9), 0.9), 0.9), 0.9)
-
-    yData = [
-        heartRate,
-        filteredHeartRate,
-        deviationFilteredHeartRate,
-        stddev1minfilteredHeartRate,
-        justTiming,
-        filteredJustTimingv1
-    ]
-
-    drawData(time, yData)
 
     drawData(time, [
         heartRate,
-        filteredJustTimingv1
+        justTimingv1
     ])
 
     drawData(time, [
         heartRate,
-        filteredJustTimingv2
+        justTimingv2
     ])
 
     drawData(time, [
         heartRate,
-        filteredJustTimingv3
+        justTimingv3
     ])
     plt.show()
 
