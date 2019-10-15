@@ -82,9 +82,9 @@ def main():
 
     deviationstddev60filteredHeartRate = deviation(stddev60filteredHeartRate)
 
-    timing = np.sqrt(combine(deviationHeartRate, deviationstddev60filteredHeartRate))
+    justTiming = np.sqrt(combine(deviationHeartRate, deviationstddev60filteredHeartRate))
 
-    filteredTiming = filter(np.sqrt(combine(deviationHeartRate, deviationstddev60filteredHeartRate)), 0.9)
+    filteredJustTiming = filter(justTiming, 0.9)
 
     yData = [
         heartRate,
@@ -92,8 +92,8 @@ def main():
         deviationFilteredHeartRate,
         stddev60HeartRate,
         stddev60filteredHeartRate,
-        timing,
-        filteredTiming
+        justTiming,
+        filteredJustTiming
     ]
 
     drawData(time, yData)
