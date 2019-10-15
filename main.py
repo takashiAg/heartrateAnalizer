@@ -60,6 +60,10 @@ def stddev(data, n):
     return stdData
 
 
+def combine(array1, array2):
+    return [x * y for (x, y) in zip(array1, array2)]
+
+
 def main():
     # CSVからデータを読み込む
     data = readCsv("rawData20191014.csv")
@@ -76,12 +80,20 @@ def main():
     stddev60HeartRate = stddev(heartRate, 60)
     stddev60filteredHeartRate = stddev(filteredHeartRate, 60)
 
+    deviationstddev60filteredHeartRate = deviation(stddev60filteredHeartRate)
+
+    timing = np.sqrt(combine(deviationHeartRate, deviationstddev60filteredHeartRate))
+
+    filteredTiming = filter(np.sqrt(combine(deviationHeartRate, deviationstddev60filteredHeartRate)), 0.9)
+
     yData = [
         heartRate,
         filteredHeartRate,
         deviationFilteredHeartRate,
         stddev60HeartRate,
-        stddev60filteredHeartRate
+        stddev60filteredHeartRate,
+        timing,
+        filteredTiming
     ]
 
     drawData(time, yData)
