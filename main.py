@@ -53,6 +53,13 @@ def filter(data, coefficient):
     return filteredData
 
 
+def stddev(data, n):
+    stdData = []
+    for i, HR in enumerate(data):
+        stdData.append(np.std(data[0 if i < n else (i - n):i + 1]))
+    return stdData
+
+
 def main():
     # CSVからデータを読み込む
     data = readCsv("rawData20191014.csv")
@@ -60,13 +67,15 @@ def main():
     # 転地してtimeとheartrateに分割
     (time, heartRate) = np.array(data).T
 
-    # digital filter
+    # digital filter 1次
     filteredHeartRate = filter(heartRate, filterCoefficient)
 
     deviationHeartRate = deviation(heartRate)
     deviationFilteredHeartRate = deviation(filteredHeartRate)
 
-    drawData(time, [heartRate, filteredHeartRate, deviationHeartRate, deviationFilteredHeartRate])
+    stddev60HeartRate = stddev(heartRate, 60)
+
+    drawData(time, [heartRate, filteredHeartRate, deviationFilteredHeartRate, stddev60HeartRate])
 
 
 if __name__ == '__main__':
