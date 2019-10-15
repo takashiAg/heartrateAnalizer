@@ -18,6 +18,7 @@ def main():
     # 転地してtimeとheartrateに分割
     (time, heartRate) = np.array(data).T
 
+    # digital filter
     filteredHeartRate = []
     print(0.0 * filterCoefficient)
     for HR in heartRate:
@@ -27,9 +28,9 @@ def main():
                  + float(HR) * (1.0 - filterCoefficient)
         )
 
-    print(len(time), len(heartRate))
+    print(len(time), len(heartRate), len(filteredHeartRate))
 
-    print(time, heartRate)
+    print(time, heartRate, filteredHeartRate)
 
 
 if __name__ == '__main__':
