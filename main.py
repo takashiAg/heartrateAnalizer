@@ -10,8 +10,12 @@ def readCsv(fileName):
 
 
 def main():
+    # CSVからデータを読み込む
     data = readCsv("rawData20191014.csv")
+
+    # numpyオブジェクトにする
     data = np.array(data)
+
     print(data)
 
 
