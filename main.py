@@ -49,21 +49,20 @@ def drawData(label, data):
         plt.xticks(rotation=90)
 
 
-def drawHistgram(data):
+def drawHistgram(datas):
+    width = 0.3
+    x_axis = np.arange(100)
     fig = plt.figure(figsize=(15.0, 10.0))
 
-    # 図の中にサブプロットを追加する
-    subPlots = []
-    for d in range(len(data)):
-        subPlot = fig.add_subplot(len(data), 1, d + 1)
-        subPlots.append(subPlot)
+    subPlot = fig.add_subplot(1, 1, 1)
+    # fig.xlim(40, 80)
 
-    for i, subPlot in enumerate(subPlots):
-        subPlot.bar([x for x in range(100)], data[i])
+    for i, data in enumerate(datas):
+        subPlot.bar(x_axis + i * width, data, width=width, align='center')
 
     # ラベルを縦向きに
     for ax in fig.axes:
-        ax.set_xlim(40,80)
+        ax.set_xlim(40, 80)
         plt.sca(ax)
         plt.xticks(rotation=90)
 
