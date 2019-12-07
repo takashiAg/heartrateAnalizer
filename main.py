@@ -14,6 +14,21 @@ def readCsv(fileName):
         return [[dt.strptime(row[0], '%H:%M:%S'), float(row[1])] for row in reader]
 
 
+def readTiming(goodTimingFileName, badTimingFileName):
+    f = open(goodTimingFileName)
+    reader = csv.reader(f)
+    header = next(reader)
+    goodTiming = [[dt.strptime(row[0], '%H:%M:%S'), dt.strptime(row[1], '%H:%M:%S')] for row in reader]
+    f.close()
+
+    f = open(badTimingFileName)
+    reader = csv.reader(f)
+    header = next(reader)
+    badTiming = [[dt.strptime(row[0], '%H:%M:%S'), dt.strptime(row[1], '%H:%M:%S')] for row in reader]
+    f.close()
+    return (goodTiming, badTiming)
+
+
 def drawData(label, data):
     fig = plt.figure(figsize=(15.0, 10.0))
 
@@ -30,6 +45,25 @@ def drawData(label, data):
 
     # ラベルを縦向きに
     for ax in fig.axes:
+        plt.sca(ax)
+        plt.xticks(rotation=90)
+
+
+def drawHistgram(data):
+    fig = plt.figure(figsize=(15.0, 10.0))
+
+    # 図の中にサブプロットを追加する
+    subPlots = []
+    for d in range(len(data)):
+        subPlot = fig.add_subplot(len(data), 1, d + 1)
+        subPlots.append(subPlot)
+
+    for i, subPlot in enumerate(subPlots):
+        subPlot.bar([x for x in range(100)], data[i])
+
+    # ラベルを縦向きに
+    for ax in fig.axes:
+        ax.set_xlim(40,80)
         plt.sca(ax)
         plt.xticks(rotation=90)
 
@@ -81,9 +115,30 @@ def calcJustTiming(data, filter1Coefficient, filter1Order, stdCount, filter2Coef
     return data
 
 
+def compareTiming(timing, Label):
+    for label in Label:
+        if (label[0] < timing <= label[1]):
+            return True
+    return False
+
+
+def calcHistgram(time, justTiming, goodTiming, badTiming):
+    goodTimngList = [0] * 100
+    badTimngList = [0] * 100
+    for i, timing in enumerate(justTiming):
+        if compareTiming(time[i], goodTiming):
+            goodTimngList[int(timing) if 0 <= timing < 100 else 99] += 1
+        if compareTiming(time[i], badTiming):
+            badTimngList[int(timing) if 0 <= timing < 100 else 99] += 1
+    return [badTimngList, goodTimngList]
+
+
 def main():
     # CSVからデータを読み込む
     data = readCsv("rawData20191014.csv")
+    goodTiming, badTiming = readTiming("goodtiming.csv", "badtiming.csv")
+
+    print(goodTiming, badTiming)
 
     # 転地してtimeとheartrateに分割
     (time, heartRate) = np.array(data).T
@@ -93,25 +148,35 @@ def main():
     justTimingv3 = calcJustTiming(heartRate, 0.99, 1, 12, 0.9, 4)
     justTimingv4 = calcJustTiming(heartRate, 0.7, 10, 12, 0.8, 10)
 
+    goodhistgramv1 = calcHistgram(time, justTimingv1, goodTiming, badTiming)
+    goodhistgramv2 = calcHistgram(time, justTimingv2, goodTiming, badTiming)
+    goodhistgramv3 = calcHistgram(time, justTimingv3, goodTiming, badTiming)
+    goodhistgramv4 = calcHistgram(time, justTimingv4, goodTiming, badTiming)
+
     drawData(time, [
         heartRate,
         justTimingv1
     ])
+
+    drawHistgram(goodhistgramv1)
 
     drawData(time, [
         heartRate,
         justTimingv2
     ])
 
+    drawHistgram(goodhistgramv2)
     drawData(time, [
         heartRate,
         justTimingv3
     ])
 
+    drawHistgram(goodhistgramv3)
     drawData(time, [
         heartRate,
         justTimingv4
     ])
+    drawHistgram(goodhistgramv4)
     plt.show()
 
 
