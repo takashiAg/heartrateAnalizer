@@ -183,30 +183,19 @@ def main():
     badhistv3, goodhistv3 = calcHistgram(time, justTimingv3, goodTiming, badTiming)
     badhistv4, goodhistv4 = calcHistgram(time, justTimingv4, goodTiming, badTiming)
 
-    # drawData(time, [
-    #     heartRate,
-    #     justTimingv1
-    # ])
+
     drawHeartRate(time, heartRate, justTimingv1)
     drawHistgram(badhistv1, goodhistv1)
 
-    # drawData(time, [
-    #     heartRate,
-    #     justTimingv2
-    # ])
+    drawHeartRate(time, heartRate, justTimingv2)
+    drawHistgram(badhistv2, goodhistv2)
 
-    # drawHistgram(goodhistgramv2)
-    # drawData(time, [
-    #     heartRate,
-    #     justTimingv3
-    # ])
-    #
-    # drawHistgram(goodhistgramv3)
-    # drawData(time, [
-    #     heartRate,
-    #     justTimingv4
-    # ])
-    # drawHistgram(goodhistgramv4)
+    drawHeartRate(time, heartRate, justTimingv3)
+    drawHistgram(badhistv3, goodhistv3)
+
+    drawHeartRate(time, heartRate, justTimingv4)
+    drawHistgram(badhistv4, goodhistv4)
+
 
     plt.show()
 
