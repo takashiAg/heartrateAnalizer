@@ -49,6 +49,33 @@ def drawData(label, data):
         plt.xticks(rotation=90)
 
 
+def drawHeartRate(label, heartRate, goodTiming):
+    fig = plt.figure(figsize=(15.0, 10.0))
+
+    # 図の中にサブプロットを追加する
+
+    subPlotHeartRate = fig.add_subplot(2, 1, 1)
+    subPlotHeartRate.xaxis.set_major_locator(mdates.HourLocator())
+    subPlotHeartRate.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M:%S"))
+    subPlotHeartRate_ax, = subPlotHeartRate.plot(label, heartRate)
+
+    subPlotHeartRate.set_xlabel("time [-]", fontsize=20)
+    subPlotHeartRate.set_ylabel("Heart pulse [bpm]", fontsize=20)
+
+    subPlotJustTiming = fig.add_subplot(2, 1, 2)
+    subPlotJustTiming.xaxis.set_major_locator(mdates.HourLocator())
+    subPlotJustTiming.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M:%S"))
+    subPlotJustTiming_ax, = subPlotJustTiming.plot(label, goodTiming)
+
+    subPlotJustTiming.set_xlabel("time [-]", fontsize=20)
+    subPlotJustTiming.set_ylabel("Just timing rate [-]", fontsize=20)
+
+    # ラベルを縦向きに
+    for ax in fig.axes:
+        plt.sca(ax)
+        plt.xticks(rotation=90)
+
+
 def drawHistgram(datas):
     width = 0.3
     x_axis = np.arange(100)
@@ -152,11 +179,11 @@ def main():
     goodhistgramv3 = calcHistgram(time, justTimingv3, goodTiming, badTiming)
     goodhistgramv4 = calcHistgram(time, justTimingv4, goodTiming, badTiming)
 
-    drawData(time, [
-        heartRate,
-        justTimingv1
-    ])
-
+    # drawData(time, [
+    #     heartRate,
+    #     justTimingv1
+    # ])
+    drawHeartRate(time, heartRate, justTimingv1)
     drawHistgram(goodhistgramv1)
 
     drawData(time, [
