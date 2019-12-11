@@ -76,20 +76,24 @@ def drawHeartRate(label, heartRate, goodTiming):
         plt.xticks(rotation=90)
 
 
-def drawHistgram(datas):
+def drawHistgram(bad, good):
     width = 0.3
     x_axis = np.arange(100)
     fig = plt.figure(figsize=(15.0, 10.0))
 
     subPlot = fig.add_subplot(1, 1, 1)
+    subPlot.set_xlabel("Just Timing Rate [-]", fontsize=30)
+    subPlot.set_ylabel("count [-]", fontsize=30)
+    subPlot.legend(fontsize=18)
     # fig.xlim(40, 80)
 
-    for i, data in enumerate(datas):
-        subPlot.bar(x_axis + i * width, data, width=width, align='center')
+    subPlot.bar(x_axis, bad, width=width, align='center', label='label of bad timing')
+    subPlot.bar(x_axis + width, good, width=width, align='center', label='label of bad timing')
 
     # ラベルを縦向きに
     for ax in fig.axes:
         ax.set_xlim(40, 80)
+        plt.legend(loc='upper right', fontsize=30)
         plt.sca(ax)
         plt.xticks(rotation=90)
 
@@ -174,35 +178,36 @@ def main():
     justTimingv3 = calcJustTiming(heartRate, 0.99, 1, 12, 0.9, 4)
     justTimingv4 = calcJustTiming(heartRate, 0.7, 10, 12, 0.8, 10)
 
-    goodhistgramv1 = calcHistgram(time, justTimingv1, goodTiming, badTiming)
-    goodhistgramv2 = calcHistgram(time, justTimingv2, goodTiming, badTiming)
-    goodhistgramv3 = calcHistgram(time, justTimingv3, goodTiming, badTiming)
-    goodhistgramv4 = calcHistgram(time, justTimingv4, goodTiming, badTiming)
+    badhistv1, goodhistv1 = calcHistgram(time, justTimingv1, goodTiming, badTiming)
+    badhistv2, goodhistv2 = calcHistgram(time, justTimingv2, goodTiming, badTiming)
+    badhistv3, goodhistv3 = calcHistgram(time, justTimingv3, goodTiming, badTiming)
+    badhistv4, goodhistv4 = calcHistgram(time, justTimingv4, goodTiming, badTiming)
 
     # drawData(time, [
     #     heartRate,
     #     justTimingv1
     # ])
     drawHeartRate(time, heartRate, justTimingv1)
-    drawHistgram(goodhistgramv1)
+    drawHistgram(badhistv1, goodhistv1)
 
-    drawData(time, [
-        heartRate,
-        justTimingv2
-    ])
+    # drawData(time, [
+    #     heartRate,
+    #     justTimingv2
+    # ])
 
-    drawHistgram(goodhistgramv2)
-    drawData(time, [
-        heartRate,
-        justTimingv3
-    ])
+    # drawHistgram(goodhistgramv2)
+    # drawData(time, [
+    #     heartRate,
+    #     justTimingv3
+    # ])
+    #
+    # drawHistgram(goodhistgramv3)
+    # drawData(time, [
+    #     heartRate,
+    #     justTimingv4
+    # ])
+    # drawHistgram(goodhistgramv4)
 
-    drawHistgram(goodhistgramv3)
-    drawData(time, [
-        heartRate,
-        justTimingv4
-    ])
-    drawHistgram(goodhistgramv4)
     plt.show()
 
 
