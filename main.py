@@ -173,29 +173,12 @@ def main():
     # 転地してtimeとheartrateに分割
     (time, heartRate) = np.array(data).T
 
-    justTimingv1 = calcJustTiming(heartRate, 0.99, 1, 60, 0.9, 1)
-    justTimingv2 = calcJustTiming(heartRate, 0.99, 1, 12, 0.99, 1)
-    justTimingv3 = calcJustTiming(heartRate, 0.99, 1, 12, 0.9, 4)
-    justTimingv4 = calcJustTiming(heartRate, 0.7, 10, 12, 0.8, 10)
+    justTiming = calcJustTiming(heartRate, 0.99, 1, 60, 0.9, 1)
 
-    badhistv1, goodhistv1 = calcHistgram(time, justTimingv1, goodTiming, badTiming)
-    badhistv2, goodhistv2 = calcHistgram(time, justTimingv2, goodTiming, badTiming)
-    badhistv3, goodhistv3 = calcHistgram(time, justTimingv3, goodTiming, badTiming)
-    badhistv4, goodhistv4 = calcHistgram(time, justTimingv4, goodTiming, badTiming)
+    badhist, goodhist = calcHistgram(time, justTiming, goodTiming, badTiming)
 
-
-    drawHeartRate(time, heartRate, justTimingv1)
-    drawHistgram(badhistv1, goodhistv1)
-
-    drawHeartRate(time, heartRate, justTimingv2)
-    drawHistgram(badhistv2, goodhistv2)
-
-    drawHeartRate(time, heartRate, justTimingv3)
-    drawHistgram(badhistv3, goodhistv3)
-
-    drawHeartRate(time, heartRate, justTimingv4)
-    drawHistgram(badhistv4, goodhistv4)
-
+    drawHeartRate(time, heartRate, justTiming)
+    drawHistgram(badhist, goodhist)
 
     plt.show()
 
