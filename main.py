@@ -3,8 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
 from datetime import datetime as dt
-
-filterCoefficient = 0.99
+import math
 
 
 def readCsv(fileName):
@@ -76,6 +75,12 @@ def drawHeartRate(label, heartRate, goodTiming):
         plt.xticks(rotation=90)
 
 
+def calcFulterCutoffFreq(Samplefreqency, filterCoefficient):
+    r = 1 - filterCoefficient
+    fc = Samplefreqency / (2 * math.pi) * math.acos((2 - (2 * r) - (r ** 2)) / (2 * (1 - r)))
+    return fc
+
+
 def drawHistgram(bad, good):
     width = 0.3
     x_axis = np.arange(100)
@@ -88,7 +93,7 @@ def drawHistgram(bad, good):
     # fig.xlim(40, 80)
 
     subPlot.bar(x_axis, bad, width=width, align='center', label='label of bad timing')
-    subPlot.bar(x_axis + width, good, width=width, align='center', label='label of bad timing')
+    subPlot.bar(x_axis + width, good, width=width, align='center', label='label of good timing')
 
     # ラベルを縦向きに
     for ax in fig.axes:
@@ -164,16 +169,29 @@ def calcHistgram(time, justTiming, goodTiming, badTiming):
 
 
 def main():
+    # sample rate
+    Fs = 2
+
     # CSVからデータを読み込む
     data = readCsv("rawData20191014.csv")
     goodTiming, badTiming = readTiming("goodtiming.csv", "badtiming.csv")
 
-    print(goodTiming, badTiming)
-
     # 転地してtimeとheartrateに分割
     (time, heartRate) = np.array(data).T
 
-    justTiming = calcJustTiming(heartRate, 0.99, 1, 60, 0.9, 1)
+    filter1Coefficient = 0.99
+    filter1Order = 1
+    stdCount = 60
+    filter2Coefficient = 0.9
+    filter2Order = 1
+
+    Fc1 = calcFulterCutoffFreq(Fs, filter1Coefficient)
+    Fc2 = calcFulterCutoffFreq(Fs, filter2Coefficient)
+
+    print("filter 1 cutoff freqency is {filter1Cutoff}[Hz]\nfilter 2 cutoff freqency is {filter2Cutoff}[Hz]"
+          .format(filter1Cutoff=Fc1, filter2Cutoff=Fc2))
+
+    justTiming = calcJustTiming(heartRate, filter1Coefficient, filter1Order, stdCount, filter2Coefficient, filter2Order)
 
     badhist, goodhist = calcHistgram(time, justTiming, goodTiming, badTiming)
 
