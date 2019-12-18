@@ -1,5 +1,7 @@
 import urllib.request
 import json
+import datetime
+import csv
 
 id = 18717
 
@@ -24,8 +26,17 @@ def main():
     rawData = []
     data = get()
     for d in data:
-        rawData.append({"time": d["timestamp"], "heartRate": d["ComputedHeartRate"]})
+        dt_jst_aware = datetime.datetime.fromtimestamp(d["timestamp"] / 1000,
+                                                       datetime.timezone(datetime.timedelta(hours=9)))
+        rawData.append({"time": "{0:%H:%M:%S}".format(dt_jst_aware), "heartRate": d["ComputedHeartRate"]})
     print(rawData)
+    f = open('data_{year}_{month}_{day}.csv'
+             .format(year=year, month=month, day=day), 'w')
+    writer = csv.writer(f)
+    writer.writerow(["time", "heartRate"])
+    for d in rawData:
+        writer.writerow([d["time"], d["heartRate"]])
+    f.close()
 
 
 if __name__ == '__main__':
