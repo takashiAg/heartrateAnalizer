@@ -49,25 +49,25 @@ def drawData(label, data):
 
 
 def drawHeartRate(label, heartRate, goodTiming):
-    fig = plt.figure(figsize=(15.0, 10.0))
+    fig = plt.figure(figsize=(8.0, 5.0))
 
     # 図の中にサブプロットを追加する
 
     subPlotHeartRate = fig.add_subplot(2, 1, 1)
-    subPlotHeartRate.xaxis.set_major_locator(mdates.HourLocator())
-    subPlotHeartRate.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M:%S"))
+    subPlotHeartRate.xaxis.set_major_locator(mdates.MinuteLocator())
+    subPlotHeartRate.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
     subPlotHeartRate_ax, = subPlotHeartRate.plot(label, heartRate)
 
-    subPlotHeartRate.set_xlabel("time [-]", fontsize=20)
-    subPlotHeartRate.set_ylabel("Heart pulse [bpm]", fontsize=20)
+    subPlotHeartRate.set_xlabel("time [-]", fontsize=12)
+    subPlotHeartRate.set_ylabel("Heart pulse [bpm]", fontsize=12)
 
     subPlotJustTiming = fig.add_subplot(2, 1, 2)
-    subPlotJustTiming.xaxis.set_major_locator(mdates.HourLocator())
-    subPlotJustTiming.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M:%S"))
+    subPlotJustTiming.xaxis.set_major_locator(mdates.MinuteLocator())
+    subPlotJustTiming.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
     subPlotJustTiming_ax, = subPlotJustTiming.plot(label, goodTiming)
 
-    subPlotJustTiming.set_xlabel("time [-]", fontsize=20)
-    subPlotJustTiming.set_ylabel("Just timing rate [-]", fontsize=20)
+    subPlotJustTiming.set_xlabel("time [-]", fontsize=12)
+    subPlotJustTiming.set_ylabel("Just timing rate [-]", fontsize=12)
 
     # ラベルを縦向きに
     for ax in fig.axes:
@@ -173,7 +173,7 @@ def main():
     Fs = 2
 
     # CSVからデータを読み込む
-    data = readCsv("rawData20191014.csv")
+    data = readCsv("data_taka_2019_12_11.csv")
     goodTiming, badTiming = readTiming("goodtiming.csv", "badtiming.csv")
 
     # 転地してtimeとheartrateに分割
