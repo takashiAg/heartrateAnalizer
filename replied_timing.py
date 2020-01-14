@@ -13,58 +13,25 @@ def readCsv(fileName):
         return [[dt.strptime(row[0], '%H:%M:%S'), float(row[1])] for row in reader]
 
 
-def readTiming(goodTimingFileName, badTimingFileName):
-    f = open(goodTimingFileName)
+def readTiming(fileName):
+    f = open(fileName)
     reader = csv.reader(f)
     header = next(reader)
-    goodTiming = [[dt.strptime(row[0], '%H:%M:%S'), dt.strptime(row[1], '%H:%M:%S')] for row in reader]
+    repliedTiming = [dt.strptime(row[0], '%H:%M') for row in reader]
     f.close()
 
-    f = open(badTimingFileName)
-    reader = csv.reader(f)
-    header = next(reader)
-    badTiming = [[dt.strptime(row[0], '%H:%M:%S'), dt.strptime(row[1], '%H:%M:%S')] for row in reader]
-    f.close()
-    return (goodTiming, badTiming)
+    return repliedTiming
 
 
-def drawData(label, data):
-    fig = plt.figure(figsize=(15.0, 10.0))
+def drawHeartRate(label, goodTiming, repliedTiming):
+    fig = plt.figure(figsize=(8, 5))
 
-    # 図の中にサブプロットを追加する
-    subPlots = []
-    for d in range(len(data)):
-        subPlot = fig.add_subplot(len(data), 1, d + 1)
-        subPlot.xaxis.set_major_locator(mdates.HourLocator())
-        subPlot.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M:%S"))
-        subPlots.append(subPlot)
-
-    for i, subPlot in enumerate(subPlots):
-        fig1_a_1, = subPlot.plot(label, data[i])
-
-    # ラベルを縦向きに
-    for ax in fig.axes:
-        plt.sca(ax)
-        plt.xticks(rotation=90)
-
-
-def drawHeartRate(label, heartRate, goodTiming):
-    fig = plt.figure(figsize=(8.0, 5.0))
-
-    # 図の中にサブプロットを追加する
-
-    subPlotHeartRate = fig.add_subplot(2, 1, 1)
-    subPlotHeartRate.xaxis.set_major_locator(mdates.MinuteLocator(interval=10))
-    subPlotHeartRate.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
-    subPlotHeartRate_ax, = subPlotHeartRate.plot(label, heartRate)
-
-    subPlotHeartRate.set_xlabel("time [-]", fontsize=12)
-    subPlotHeartRate.set_ylabel("Heart pulse [bpm]", fontsize=12)
-
-    subPlotJustTiming = fig.add_subplot(2, 1, 2)
+    subPlotJustTiming = fig.add_subplot(1, 1, 1)
     subPlotJustTiming.xaxis.set_major_locator(mdates.MinuteLocator(interval=10))
     subPlotJustTiming.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
     subPlotJustTiming_ax, = subPlotJustTiming.plot(label, goodTiming)
+    for t in repliedTiming:
+        subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "red", linestyles='dashed', linewidth=0.5)
 
     subPlotJustTiming.set_xlabel("time [-]", fontsize=12)
     subPlotJustTiming.set_ylabel("Just timing rate [-]", fontsize=12)
@@ -173,16 +140,18 @@ def main():
     Fs = 2
 
     # CSVからデータを読み込む
-    data = readCsv("rawData20191014.csv")
-    goodTiming, badTiming = readTiming("goodtiming.csv", "badtiming.csv")
+    data = readCsv("data_2019_12_10.csv")
+    repliedTiming = readTiming("justtiming_takatoshi.csv")
+
+    print(repliedTiming)
 
     # 転地してtimeとheartrateに分割
     (time, heartRate) = np.array(data).T
 
-    filter1Coefficient = 0.99
+    filter1Coefficient = 0.999
     filter1Order = 1
     stdCount = 60
-    filter2Coefficient = 0.9
+    filter2Coefficient = 0.99
     filter2Order = 1
 
     Fc1 = calcFulterCutoffFreq(Fs, filter1Coefficient)
@@ -193,10 +162,7 @@ def main():
 
     justTiming = calcJustTiming(heartRate, filter1Coefficient, filter1Order, stdCount, filter2Coefficient, filter2Order)
 
-    badhist, goodhist = calcHistgram(time, justTiming, goodTiming, badTiming)
-
-    drawHeartRate(time, heartRate, justTiming)
-    drawHistgram(badhist, goodhist)
+    drawHeartRate(time, justTiming, repliedTiming)
 
     plt.show()
 

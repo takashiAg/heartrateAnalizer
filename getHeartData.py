@@ -7,7 +7,7 @@ id = 18717
 
 year = 2019
 month = 12
-day = 11
+day = 10
 
 # url = 'http://localhost:8080/api/heartrate/18717/2019/12/11'
 url = 'http://localhost:8080/api/heartrate/{id}/{year}/{month}/{day}' \
