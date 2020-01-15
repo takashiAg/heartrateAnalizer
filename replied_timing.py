@@ -23,7 +23,7 @@ def readTiming(fileName):
     return repliedTiming
 
 
-def drawHeartRate(label, goodTiming, repliedTiming):
+def drawHeartRate(label, goodTiming, repliedTiming, notifiedTiming):
     fig = plt.figure(figsize=(8, 5))
 
     subPlotJustTiming = fig.add_subplot(1, 1, 1)
@@ -32,6 +32,9 @@ def drawHeartRate(label, goodTiming, repliedTiming):
     subPlotJustTiming_ax, = subPlotJustTiming.plot(label, goodTiming)
     for t in repliedTiming:
         subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "red", linestyles='dashed', linewidth=0.5)
+
+    for t in notifiedTiming:
+        subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "blue", linestyles='dashed', linewidth=0.5)
 
     subPlotJustTiming.set_xlabel("time [-]", fontsize=12)
     subPlotJustTiming.set_ylabel("Just timing rate [-]", fontsize=12)
@@ -142,6 +145,7 @@ def main():
     # CSVからデータを読み込む
     data = readCsv("data_2019_12_10.csv")
     repliedTiming = readTiming("justtiming_takatoshi.csv")
+    notifiedTiming = readTiming("justtiming_takatoshi_2.csv")
 
     print(repliedTiming)
 
@@ -162,7 +166,7 @@ def main():
 
     justTiming = calcJustTiming(heartRate, filter1Coefficient, filter1Order, stdCount, filter2Coefficient, filter2Order)
 
-    drawHeartRate(time, justTiming, repliedTiming)
+    drawHeartRate(time, justTiming, repliedTiming, notifiedTiming)
 
     plt.show()
 
