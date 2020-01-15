@@ -31,16 +31,19 @@ def drawHeartRate(label, goodTiming, repliedTiming, notifiedTiming):
     subPlotJustTiming.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
     subPlotJustTiming_ax, = subPlotJustTiming.plot(label, goodTiming)
     for t in repliedTiming:
-        subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "red", linestyles='dashed', linewidth=0.5)
+        subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "red", linestyles='dashed', linewidth=1)
 
     for t in notifiedTiming:
-        subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "blue", linestyles='dashed', linewidth=0.5)
+        subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "blue", linestyles='dashed', linewidth=1)
+
+    # fig.xlim(dt.strptime("14:30", '%H:%M'), dt.strptime("15:30", '%H:%M'))
 
     subPlotJustTiming.set_xlabel("time [-]", fontsize=12)
     subPlotJustTiming.set_ylabel("Just timing rate [-]", fontsize=12)
 
     # ラベルを縦向きに
     for ax in fig.axes:
+        ax.set_xlim(dt.strptime("14:30", '%H:%M'), dt.strptime("15:05", '%H:%M'))
         plt.sca(ax)
         plt.xticks(rotation=90)
 
