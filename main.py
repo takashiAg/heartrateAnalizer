@@ -61,15 +61,15 @@ def drawHeartRate(label, heartRate, goodTiming):
 
 
     # subPlotHeartRate.set_xlabel("time [-]", fontsize=12)
-    subPlotHeartRate.set_ylabel("Heart pulse [bpm]", fontsize=12)
+    subPlotHeartRate.set_ylabel("Heart pulse [bpm]", fontsize=14)
 
     subPlotJustTiming = fig.add_subplot(2, 1, 2)
     subPlotJustTiming.xaxis.set_major_locator(mdates.MinuteLocator(interval=30))
     subPlotJustTiming.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
     subPlotJustTiming_ax, = subPlotJustTiming.plot(label, goodTiming)
 
-    subPlotJustTiming.set_xlabel("time [-]", fontsize=12)
-    subPlotJustTiming.set_ylabel("Just-in-Time index [-]", fontsize=12)
+    subPlotJustTiming.set_xlabel("time [min]", fontsize=14)
+    subPlotJustTiming.set_ylabel("Just-in-Time index [-]", fontsize=14)
 
     # ラベルを縦向きに
     for ax in fig.axes:
