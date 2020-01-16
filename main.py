@@ -54,20 +54,22 @@ def drawHeartRate(label, heartRate, goodTiming):
     # 図の中にサブプロットを追加する
 
     subPlotHeartRate = fig.add_subplot(2, 1, 1)
-    subPlotHeartRate.xaxis.set_major_locator(mdates.MinuteLocator(interval=10))
+    subPlotHeartRate.xaxis.set_major_locator(mdates.MinuteLocator(interval=30))
     subPlotHeartRate.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
     subPlotHeartRate_ax, = subPlotHeartRate.plot(label, heartRate)
+    subPlotHeartRate.tick_params(labelbottom=False)
 
-    subPlotHeartRate.set_xlabel("time [-]", fontsize=12)
+
+    # subPlotHeartRate.set_xlabel("time [-]", fontsize=12)
     subPlotHeartRate.set_ylabel("Heart pulse [bpm]", fontsize=12)
 
     subPlotJustTiming = fig.add_subplot(2, 1, 2)
-    subPlotJustTiming.xaxis.set_major_locator(mdates.MinuteLocator(interval=10))
+    subPlotJustTiming.xaxis.set_major_locator(mdates.MinuteLocator(interval=30))
     subPlotJustTiming.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
     subPlotJustTiming_ax, = subPlotJustTiming.plot(label, goodTiming)
 
     subPlotJustTiming.set_xlabel("time [-]", fontsize=12)
-    subPlotJustTiming.set_ylabel("Just timing rate [-]", fontsize=12)
+    subPlotJustTiming.set_ylabel("Just-in-Time index [-]", fontsize=12)
 
     # ラベルを縦向きに
     for ax in fig.axes:
