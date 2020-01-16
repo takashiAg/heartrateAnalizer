@@ -87,8 +87,9 @@ def drawHistgram(bad, good):
     fig = plt.figure(figsize=(15.0, 10.0))
 
     subPlot = fig.add_subplot(1, 1, 1)
-    subPlot.set_xlabel("Just Timing Rate [-]", fontsize=30)
-    subPlot.set_ylabel("count [-]", fontsize=30)
+    subPlot.set_xlabel("Just-in-Time index [-]", fontsize=30)
+    subPlot.set_ylabel("Occurrence [-]", fontsize=30)
+    subPlot.tick_params(labelsize=20)
     subPlot.legend(fontsize=18)
     # fig.xlim(40, 80)
 
