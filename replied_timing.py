@@ -43,7 +43,7 @@ def drawHeartRate(label, goodTiming, repliedTiming, notifiedTiming):
 
     # ラベルを縦向きに
     for ax in fig.axes:
-        ax.set_xlim(dt.strptime("14:30", '%H:%M'), dt.strptime("15:05", '%H:%M'))
+        ax.set_xlim(dt.strptime("16:00", '%H:%M'), dt.strptime("18:00", '%H:%M'))
         plt.sca(ax)
         plt.xticks(rotation=90)
 
@@ -125,7 +125,7 @@ def calcJustTiming(data, filter1Coefficient, filter1Order, stdCount, filter2Coef
 
 def compareTiming(timing, Label):
     for label in Label:
-        if (label[0] < timing <= label[1]):
+        if  (label[0] < timing <= label[1]):
             return True
     return False
 

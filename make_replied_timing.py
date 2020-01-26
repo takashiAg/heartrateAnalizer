@@ -4,9 +4,9 @@ import datetime
 
 fileName = "justtiming_takatoshi_2.csv"
 
-baseTime = datetime.time(hour=14, minute=40)
+baseTime = datetime.time(hour=14, minute=39)
 timeStep = datetime.timedelta(minutes=5)
-count = 48
+count = 49
 
 startTime = datetime.datetime.combine(datetime.date.today(), baseTime)
 
