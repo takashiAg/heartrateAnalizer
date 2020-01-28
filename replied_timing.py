@@ -5,6 +5,10 @@ from matplotlib import dates as mdates
 from datetime import datetime as dt
 import math
 
+username = "taka"
+
+base = "data/{username}/{filename}"
+
 
 def readCsv(fileName):
     with open(fileName) as f:
@@ -43,7 +47,7 @@ def drawHeartRate(label, goodTiming, repliedTiming, notifiedTiming):
 
     # ラベルを縦向きに
     for ax in fig.axes:
-        ax.set_xlim(dt.strptime("16:00", '%H:%M'), dt.strptime("18:00", '%H:%M'))
+        # ax.set_xlim(dt.strptime("16:00", '%H:%M'), dt.strptime("18:00", '%H:%M'))
         plt.sca(ax)
         plt.xticks(rotation=90)
 
@@ -125,7 +129,7 @@ def calcJustTiming(data, filter1Coefficient, filter1Order, stdCount, filter2Coef
 
 def compareTiming(timing, Label):
     for label in Label:
-        if  (label[0] < timing <= label[1]):
+        if (label[0] < timing <= label[1]):
             return True
     return False
 
@@ -146,9 +150,9 @@ def main():
     Fs = 2
 
     # CSVからデータを読み込む
-    data = readCsv("data_2019_12_10.csv")
-    repliedTiming = readTiming("justtiming_takatoshi.csv")
-    notifiedTiming = readTiming("justtiming_takatoshi_2.csv")
+    data = readCsv(base.format(username=username, filename="rawData.csv"))
+    repliedTiming = readTiming(base.format(username=username, filename="replied_timing.csv"))
+    notifiedTiming = readTiming(base.format(username=username, filename="notified_timing.csv"))
 
     print(repliedTiming)
 
