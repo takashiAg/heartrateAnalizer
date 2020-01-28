@@ -34,17 +34,24 @@ def drawHeartRate(label, goodTiming, repliedTiming, notifiedTiming):
     subPlotJustTiming.xaxis.set_major_locator(mdates.MinuteLocator(interval=10))
     subPlotJustTiming.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
     subPlotJustTiming_ax, = subPlotJustTiming.plot(label, goodTiming)
+    isFirst = True
     for t in repliedTiming:
-        subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "red", linestyles='dashed', linewidth=1)
+        subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "red", linestyles='dashed', linewidth=1,
+                                 label="replied timing" if isFirst else "")
+        isFirst = False
 
+    isFirst = True
     for t in notifiedTiming:
-        subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "blue", linestyles='dashed', linewidth=1)
+        subPlotJustTiming.vlines(t, min(goodTiming), max(goodTiming), "blue", linestyles='dashed', linewidth=1,
+                                 label="notified timing" if isFirst else "")
+        isFirst = False
 
     # fig.xlim(dt.strptime("14:30", '%H:%M'), dt.strptime("15:30", '%H:%M'))
 
-    subPlotJustTiming.set_xlabel("time [-]", fontsize=12)
+    subPlotJustTiming.set_xlabel("time [min]", fontsize=12)
     subPlotJustTiming.set_ylabel("Just timing rate [-]", fontsize=12)
 
+    subPlotJustTiming.legend()
     # ラベルを縦向きに
     for ax in fig.axes:
         # ax.set_xlim(dt.strptime("16:00", '%H:%M'), dt.strptime("18:00", '%H:%M'))
