@@ -2,7 +2,7 @@ import re
 import csv
 import datetime
 
-fileName = "justtiming_takatoshi_2.csv"
+fileName = "data/takatoshi/notified_timing.csv"
 
 baseTime = datetime.time(hour=14, minute=39)
 timeStep = datetime.timedelta(minutes=5)

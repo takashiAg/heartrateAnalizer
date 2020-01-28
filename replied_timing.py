@@ -5,7 +5,7 @@ from matplotlib import dates as mdates
 from datetime import datetime as dt
 import math
 
-username = "yamada"
+username = "yamamura"
 
 base = "data/{username}/{filename}"
 
