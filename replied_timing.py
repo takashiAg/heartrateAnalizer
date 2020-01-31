@@ -49,7 +49,7 @@ def drawHeartRate(label, goodTiming, repliedTiming, notifiedTiming):
     # fig.xlim(dt.strptime("14:30", '%H:%M'), dt.strptime("15:30", '%H:%M'))
 
     subPlotJustTiming.set_xlabel("time [min]", fontsize=12)
-    subPlotJustTiming.set_ylabel("Just timing rate [-]", fontsize=12)
+    subPlotJustTiming.set_ylabel("Just in Timing index [-]", fontsize=12)
 
     subPlotJustTiming.legend()
     # ラベルを縦向きに
