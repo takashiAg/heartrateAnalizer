@@ -1,7 +1,7 @@
 import csv
 from datetime import datetime as dt
 
-username = "arisa"
+username = "yamamura"
 filepath = "data/{username}/{filename}.csv"
 
 
@@ -59,7 +59,7 @@ def main():
         diff = (replied_timing[pointer][0] - n[0]).total_seconds() / 60
         diff = int(diff) if diff >= 0 else 0
         data.append([n[0].strftime("%H:%M"), replied_timing[pointer][0].strftime("%H:%M"), diff,
-                     int(JITindex[jit_pointer][1]), int(JITindex[jit_pointer2][1])])
+                     JITindex[jit_pointer][1], JITindex[jit_pointer2][1]])
 
     writeCsv(
         filepath.format(username=username, filename="notified_replied_timing"),
