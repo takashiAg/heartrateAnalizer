@@ -45,7 +45,9 @@ def main():
     # )
     # ax.set_ylabel('Time to respond [min]')
     # ax.set_xlabel('\"JIT\" index [-]')
-    # plt.legend()
+
+
+    plt.legend()
 
     plt.show()
 

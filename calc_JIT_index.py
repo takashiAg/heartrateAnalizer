@@ -195,7 +195,7 @@ def main():
 
     filter1Coefficient = 0.99
     filter1Order = 1
-    stdCount = 10
+    stdCount = 300
     filter2Coefficient = 0.9
     filter2Order = 1
 
