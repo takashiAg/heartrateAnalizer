@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
 from datetime import datetime as dt
 import math
-import sys
+# import sys
 
-username = sys.argv[1]
+username = ""
 filepath = "data/{username}/{filename}.csv"
 
 
@@ -183,6 +183,7 @@ def writeCsv(fileName, data, header):
 
 
 def main():
+    print(username)
     # sample rate
     Fs = 2
 

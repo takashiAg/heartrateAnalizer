@@ -1,9 +1,8 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
 
-username = sys.argv[1]
+username = ""
 filepath = "data/{username}/{filename}.csv"
 
 

@@ -1,8 +1,8 @@
 import csv
 from datetime import datetime as dt
-import sys
+# import sys
 
-username = sys.argv[1]
+username = ""
 filepath = "data/{username}/{filename}.csv"
 
 
