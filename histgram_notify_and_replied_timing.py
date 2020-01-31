@@ -2,7 +2,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-username = "arisa"
+username = "nakano"
 filepath = "data/{username}/{filename}.csv"
 
 
@@ -15,20 +15,30 @@ def readCsv(fileName):
 
 def main():
     notified_replied_timing = readCsv(filepath.format(username=username, filename="notified_replied_timing"))
-    # notified_replied_timing = [row for row in notified_replied_timing if row[0] != 0]
-    (time_respond, JIT_notify, JIT_respond) = np.array(notified_replied_timing).T
+    replied_less_than = [[row[0], row[1], row[2], row[2] - row[1]] for row in notified_replied_timing if row[0] <= 1]
+    (_, JIT_less_than, _, JIT_diff_less_than) = np.array(replied_less_than).T
+    replied_more_than = [[row[0], row[1], row[2], row[2] - row[1]] for row in notified_replied_timing if row[0] > 1]
+    (_, JIT_more_than, _, JIT_diff_more_than) = np.array(replied_more_than).T
     print(notified_replied_timing)
 
     fig = plt.figure()
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.scatter(time_respond, JIT_respond, c='none', linewidths=1, edgecolors="red", label="JIT index at respond")
-    ax.scatter(time_respond, JIT_notify, marker='x', label="JIT index at notified")
+    ax.hist(
+        [JIT_less_than, JIT_more_than],
+        label=["Respond with in 1 [min]", "Respond after more than 1 [min]"],
+    )
+    # ax.hist(
+    #     [JIT_diff_less_than, JIT_diff_more_than],
+    #     label=["Respond with in 1 [min]", "Respond after more than 1 [min]"],
+    # )
+    # ax.hist(, label = , rwidth = 0.4)
+    # ax.scatter(time_respond, JIT_notify, marker='x', label="JIT index at notified")
 
     # ax.set_title(' ')
-    ax.set_xlabel('time to respond [min]')
-    ax.set_ylabel('JIT index')
+    ax.set_ylabel('Time to respond [min]')
+    ax.set_xlabel('\"JIT\" index [-]')
     plt.legend()
     plt.show()
 
