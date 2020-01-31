@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
 from datetime import datetime as dt
 import math
+
 # import sys
 
 username = ""
@@ -137,6 +138,10 @@ def combine(array1, array2):
     return [x * y for (x, y) in zip(array1, array2)]
 
 
+def diff(data):
+    return [0 if i == 0 else abs(data[i - 1] - HR) for i, HR in enumerate(data)]
+
+
 def calcJustTiming(data, filter1Coefficient, filter1Order, stdCount, filter2Coefficient, filter2Order):
     # digital filter
     for i in range(filter1Order):
@@ -144,7 +149,8 @@ def calcJustTiming(data, filter1Coefficient, filter1Order, stdCount, filter2Coef
 
     deviationdHeartRate = deviation(data)
 
-    stddevHeartRate = stddev(data, stdCount)
+    # stddevHeartRate = stddev(data, stdCount)
+    stddevHeartRate = diff(data)
 
     deviationstddevHeartRate = deviation(stddevHeartRate)
 
