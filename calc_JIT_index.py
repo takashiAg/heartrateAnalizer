@@ -4,8 +4,9 @@ import matplotlib.pyplot as plt
 from matplotlib import dates as mdates
 from datetime import datetime as dt
 import math
+import sys
 
-username = "yamamura"
+username = sys.argv[1]
 filepath = "data/{username}/{filename}.csv"
 
 
