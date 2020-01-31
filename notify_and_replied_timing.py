@@ -30,15 +30,16 @@ def main():
     for n in notified_timing:
         while (replied_timing[pointer][0] < n[0]):
             if len(replied_timing) - 1 <= pointer:
-                print("break", len(replied_timing) - 1, pointer)
                 break
             pointer += 1
-        data.append([n[0].strftime("%H:%M"), replied_timing[pointer][0].strftime("%H:%M")])
+        diff = (replied_timing[pointer][0] - n[0]).total_seconds() / 60
+        diff = int(diff) if diff >= 0 else 0
+        data.append([n[0].strftime("%H:%M"), replied_timing[pointer][0].strftime("%H:%M"), diff])
 
     writeCsv(
         filepath.format(username=username, filename="notified_replied_timing"),
         data,
-        ["notified timing", "replied timing"]
+        ["notified timing", "replied timing", "time to respond [min]"]
     )
 
 
